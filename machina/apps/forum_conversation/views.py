@@ -423,7 +423,11 @@ class BaseTopicFormView(BasePostFormView):
         )
         poll_option_formset_valid = (
             poll_option_formset.is_valid()
-            if poll_option_formset and len(post_form.cleaned_data['poll_question']) else None
+            if poll_option_formset
+            and (
+                len(post_form.cleaned_data['poll_question'])
+                or poll_option_formset.has_changed()
+            )
         )
 
         self.attachment_preview = self.preview if attachment_formset_valid else None
